@@ -77,7 +77,8 @@
 			let prefixes2H = [
 			['', 'M', 'D', 'T', 'Te', 'P', 'H', 'He', 'O', 'E'],
 			['', 'E', 'S', 'TN', 'TeC', 'PeC', 'HC', 'HeC', 'OC', 'EC'],
-			['', 'HT', 'DT', 'TT', 'TeT', 'PT', 'HT', 'HeT', 'OT', 'NT']]
+			['', 'HT', 'DT', 'TT', 'TeT', 'PT', 'HT', 'HeT', 'OT', 'ET']]
+			let prefixes3 = ["", "KA", "MG", "GI", "TR", "PT"]
 			var result = ''
 			if (typeof(e)=="number") {
 				var id = Math.floor(e/3-1)
@@ -95,16 +96,29 @@
 				if (partE > 0) {
 					if (partE == 1 && step > 0) var prefix = ""
 					else var prefix = prefixes[0][partE % 10] + prefixes[1][Math.floor(partE/10) % 10] + prefixes[2][Math.floor(partE/100)]
-					var prefix2
-					if (step>999) prefix2 = "["+step+"]"
-					else if (step>102) {
-						prefix2 = prefixes2H[1][Math.floor(step/10)%10]
-						if (step%100==10) prefix2 = "VE"
-						if (step%100==20) prefix2 = "IS"
-						prefix2 = prefixes2H[0][step%10] + prefix2 + prefixes2H[2][Math.floor(step/100)]
-					} else prefix2 = prefixes2[step]
-					if (result == "") result = prefix + prefix2
-					else result = prefix + prefix2 + '-' + result
+					var result2 = ""
+					if (step > 102) {
+						var s2 = step
+						var stepT3 = 0
+						while (s2 > 0) {
+							partS = s2 % 1000
+							if (partS > 0) {
+								if (partS > 1 || stepT3 < 1) {
+									prefix2 = prefixes2H[1][Math.floor(partS/10)%10]
+									if (partS%100==10) prefix2 = "VE"
+									if (partS%100==20) prefix2 = "IS"
+									prefix2 = prefixes2H[0][partS%10] + prefix2 + prefixes2H[2][Math.floor(partS/100)]
+								} else prefix2 = ""
+								if (result2 == "") result2 = prefix2 + prefixes3[stepT3]
+								else result2 = prefix2 + prefixes3[stepT3] + "a-" + result2
+							}
+							s2 = Math.floor(s2/1000)
+							stepT3++
+						}
+						
+					} else result2 = prefixes2[step]
+					if (result == "") result = prefix + result2
+					else result = prefix + result2 + '-' + result
 				}
 				id = Math.floor(id/1000)
 				step++
@@ -115,7 +129,7 @@
 </head>
 <body>
 	<div style='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)'>
-		Enter an number to convert to Standard.
+		Enter a number to convert to Standard.
 		<input id="number" onchange="toStandard()" style='width:300px'>
 		<div id='result'></div>
 	</div>
