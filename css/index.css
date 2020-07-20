@@ -1,10 +1,33 @@
 body {
 	margin: 0.25em;
-	font-size: 100%
+	font-size: 100%;
+	--background: radial-gradient(farthest-corner at 0 0, #00ffff, #007fff);
+	--box_color: rgba(0, 0, 0, 0.25);
+	--box_shadow: 0.25em 0.25em 0.25em rgba(0, 0, 0, 0.5);
+	--button_color: rgba(255, 255, 255, 0.25);
+	--button_color_hovered: rgba(255, 255, 255, 0.75);
+	--text_color: black;
+	--text_color_transparency_25: rgba(0, 0, 0, 0.25);
+	--text_color_transparency_50: rgba(0, 0, 0, 0.5);
+	--text_color_transparency_75: rgba(0, 0, 0, 0.75);
+	--animation_duration: 0s
+}
+
+body.dark {
+	--background: radial-gradient(farthest-corner at 0 0, black, #0f0f0f);
+	--box_color: rgba(255, 255, 255, 0.25);
+	--box_shadow: 0.25em 0.25em 0.25em rgba(255, 255, 255, 0.5);
+	--button_color: rgba(0, 191, 255, 0.25);
+	--button_color_hovered: rgba(0, 191, 255, 0.75);
+	--text_color: white;
+	--text_color_transparency_25: rgba(255, 255, 255, 0.25);
+	--text_color_transparency_50: rgba(255, 255, 255, 0.5);
+	--text_color_transparency_75: rgba(255, 255, 255, 0.75)
 }
 
 div {
 	margin: 0.25em;
+	color: var(--text_color);
 	font-family: 'Montserrat', sans-serif
 }
 
@@ -15,7 +38,7 @@ div {
 	margin: 0;
 	width: 100%;
 	height: 100%;
-	background: radial-gradient(farthest-corner at 0 0, #00ffff, #007fff)	
+	background: var(--background)
 }
 
 #container {
@@ -28,12 +51,31 @@ div {
 	overflow-y: scroll
 }
 
+button {
+	background: var(--button_color);
+	border: 0px solid;
+	border-radius: 0.25em;
+	box-shadow: var(--box_shadow);
+	height: 2em;
+	width: 12em;
+	color: var(--text_color_transparency_50);
+	font-size: 1em;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+	transition-duration: var(--animation_duration)
+}
+
+button:hover {
+	background: var(--button_color_hovered)
+}
+
 a {
 	color: rgba(255, 255, 255, 0.75)
 }
 
 .big {
-	color: rgba(0, 0, 0, 0.5);
+	color: var(--text_color_transparency_50);
 	font-size: 2em;
 	font-weight: bold
 }
@@ -43,9 +85,10 @@ a {
 }
 
 .header_box {
+	position: relative;
 	padding: 0.25em;
-	background: rgba(0, 0, 0, 0.25);
-	box-shadow: 0.25em 0.25em 0.25em rgba(0, 0, 0, 0.5);
+	background: var(--box_color);
+	box-shadow: var(--box_shadow);
 	border-radius: 0.25em;
 	width: calc(100% - 1em)
 }
@@ -62,18 +105,18 @@ a {
 	padding: 0.25em;
 	width: 15em;
 	height: 10em;
-	background: rgba(0, 0, 0, 0.25);
-	box-shadow: 0.25em 0.25em 0.25em rgba(0, 0, 0, 0.5);
+	background: var(--button_color);
+	box-shadow: var(--box_shadow);
 	border-radius: 0.25em;
 	display: inline-block;
 	overflow: hidden;
-	transition-duration: 0.5s
+	transition-duration: var(--animation_duration)
 }
 
 .item:hover {
 	width: 20em;
 	height: 12em;
-	background: rgba(255, 255, 255, 0.5)
+	background: var(--button_color_hovered)
 }
 
 .item_fix {
@@ -82,11 +125,11 @@ a {
 }
 
 #slogan {
-	color: rgba(0, 0, 0, 0.75)
+	color: var(--text_color_transparency_75)
 }
 
 #slogan2 {
-	color: rgba(0, 0, 0, 0.25)
+	color: var(--text_color_transparency_25)
 }
 
 .header_box #slogan2 {
@@ -97,4 +140,10 @@ a {
 
 .header_box:hover #slogan2 {
 	height: 1em
+}
+
+#theme {
+	position: absolute;
+	top: 0.25em;
+	right: 0.25em
 }
