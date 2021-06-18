@@ -1,0 +1,159 @@
+/* Background UI */
+* {
+	margin: 0;
+	font-family: 'Montserrat', sans-serif
+}
+
+#container {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+
+	background: linear-gradient(#00bfff, #ffbf00)
+}
+
+#darkness {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+
+	background: rgba(0, 0, 0, 0)
+
+	/*
+
+	T1: 0.875
+	T2: 0.75
+	T3: 0.625
+	T4: 0.5
+	T5: 0.25
+	T6: 0
+
+	*/
+}
+
+#block {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: black;
+	z-index: 999
+}
+
+@keyframes loaded {
+	0% {
+		display: block;
+		background: black
+	}
+	50% {
+		display: block;
+		background: transparent
+	}
+	100% {
+		display: block;
+		background: transparent
+	}
+}
+
+/* Number */
+#number_box {
+	position: fixed;
+	height: 60px;
+	width: 100%;
+	top: 50%;
+	transform: translate(0, -50%);
+
+	background: #bfdfff;
+	box-shadow: 0px 0px 60px #007fff, 0px 0px 120px #003f7f;
+	animation: number_box 1s
+}
+
+@keyframes number_box { 
+	0% {
+		top: 150%;
+		transform: translate(0, 0);
+	}
+	100% {
+		top: 50%;
+		transform: translate(0, -50%);
+	}
+}
+
+#number {
+	position: fixed;
+	width: 100%;
+	top: calc(50%);
+	transform: translate(0, -50%);
+	z-index: 2;
+
+	font-size: 30px;
+	text-align: center;
+	vertical-align: middle;
+	color: #007fff;
+	text-shadow: 2px 2px 0px #003f7f;
+}
+
+#standard {
+	position: fixed;
+	width: 100%;
+	top: calc(100% - 5px);
+	transform: translate(0, -100%);
+	z-index: 2;
+
+	font-size: 10px;
+	text-align: center;
+	vertical-align: middle;
+	color: #003f7f
+}
+
+#english {
+	position: fixed;
+	left: 10%;
+	width: 80%;
+	top: 150%
+}
+
+#english td {
+	text-align: center;
+	vertical-align: top;
+	color: #bfdfff;
+	font-size: 30px
+}
+
+#english .info td {
+	color: #00bfff;
+	font-size: 10px
+}
+
+#english .mini {
+	color: #bfdfff;
+	font-size: 20px
+}
+
+#english .roots .t2 {
+	color: #003fff
+}
+
+#english .roots .t3 {
+	color: #7fff00
+}
+
+#english .roots .t4 {
+	color: #ff0000
+}
+
+#english .roots .t5 {
+	color: #ffff00
+}
+
+#english .roots .t6 {
+	color: #00ffff
+}
+
+#english .roots td b {
+	font-weight: normal
+}
+
+#english .roots td.tier_up b {
+	font-weight: bold;
+	font-size: 40px
+}

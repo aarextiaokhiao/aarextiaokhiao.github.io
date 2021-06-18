@@ -1,0 +1,16 @@
+x = 500
+y = 0
+r = ""
+while (x > 0) {
+	y = Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 1000)
+	if (y > 0) r += ILLIONS.T0.formatRoot(y) +  " " + ILLIONS.T1.formatRoot(x) + "illion "
+	x--
+}
+
+y = Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 1000)
+if (y > 0) r += ILLIONS.T0.formatRoot(y) +  " thousand "
+
+y = Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 1000)
+if (y > 0) r += ILLIONS.T0.formatRoot(y)
+
+console.log(r)
