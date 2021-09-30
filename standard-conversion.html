@@ -1,200 +1,45 @@
 <!DOCTYPE html>
 <head>
-	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
 	<title>Aarex Tiaokhiao</title>
 	<style>
 		body {
-			background-color:#191919;
-			color:#e5e5e5;
-			font-family:'Inconsolata', monospace;
-			margin:0px
+			color: #bfffdf;
+			font-family: 'Roboto Mono';
+			margin: 0px
 		}
-		div {text-align:center}
-		input {font-family:'Inconsolata', monospace}
-		a {font-size:24px}
+		div {
+			text-align: center;
+			text-shadow: 1px 1px 2px #001f0f
+		}
+		input {
+			font-family: 'Roboto Mono';
+		}
 	</style>
 	<script type="text/javascript" src="javascripts/confractus_numerus.js"></script>
-	<script>
-		var smallAbbs = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'Oc', 'No', 'Dc', 'UDc', 'DDc', 'TDc', 'QaDc', 'QtDc', 'SxDc', 'SpDc', 'ODc', 'NDc', 'Vg', 'UVg', 'DVg', 'TVg', 'QaVg', 'QtVg', 'SxVg', 'SpVg', 'OVg', 'NVg', 'Tg', 'UTg', 'DTg', 'TTg', 'QaTg', 'QtTg', 'SxTg', 'SpTg', 'OTg', 'NTg', 'Qd', 'UQd', 'DQd', 'TQd', 'QaQd', 'QtQd', 'SxQd', 'SpQd', 'OQd', 'NQd', 'Qi', 'UQi', 'DQi', 'TQi', 'QaQi', 'QtQi', 'SxQi', 'SpQi', 'OQi', 'NQi', 'Se', 'USe', 'DSe', 'TSe', 'QaSe', 'QtSe', 'SxSe', 'SpSe', 'OSe', 'NSe', 'St', 'USt', 'DSt', 'TSt', 'QaSt', 'QtSt', 'SxSt', 'SpSt', 'OSt', 'NSt', 'Og', 'UOg', 'DOg', 'TOg', 'QaOg', 'QtOg', 'SxOg', 'SpOg', 'OOg', 'NOg', 'Nn', 'UNn', 'DNn', 'TNn', 'QaNn', 'QtNn', 'SxNn', 'SpNn', 'ONn', 'NNn', 'Ce', 'UCe'];
-
-		function toStandard() {
-			var value=new Decimal(document.getElementById("number").value)
-			if (value.gt(1/0)) document.getElementById('result').innerHTML = "<b>Result</b>: <b style='color:#e50000'>&#x221e;</b>"
-			else if (typeof(value.logarithm)!="number" || value.logarithm>=3e11+3) {
-				doHighStandard(value.logarithm)
-				document.getElementById('result').innerHTML += "<br><b>AAS</b>: "+AAS(value)
-			} else {
-				var mantissa=value.m
-				var exponent=value.e
-				mantissa=mantissa*Math.pow(10,exponent%3)
-				exponent=exponent-exponent%3
-				if (mantissa>=999.995) {
-					mantissa/=1000
-					exponent+=3
-				}
-				if (exponent<3) document.getElementById('result').innerHTML = "<b>Result</b>: "+mantissa.toFixed(2)
-				else if (exponent<309) document.getElementById('result').innerHTML = "<b>Results</b>:<br><b>Standard</b>: "+mantissa.toFixed(2)+" "+smallAbbs[exponent/3]+"<br><b>AAS</b>: "+AAS(value)
-				else {
-					let prefixes = [
-					['', 'U', 'D', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'O', 'N'],
-					['', 'Dc', 'Vg', 'Tg', 'Qd', 'Qi', 'Se', 'St', 'Og', 'Nn'],
-					['', 'Ce', 'Dn', 'Tc', 'Qe', 'Qu', 'Sc', 'Si', 'Oe', 'Ne']]
-					let prefixes2 = ['', 'MI', 'MC', 'NA']
-					var result = ''
-					exponent = Math.floor(exponent/3)-1;
-					e2 = 0
-					while (exponent > 0) {		
-						var partE = exponent % 1000
-						if (partE > 0) {
-							if (partE == 1 && e2 > 0) var prefix = ""
-							else var prefix = prefixes[0][partE % 10] + prefixes[1][Math.floor(partE/10) % 10] + prefixes[2][Math.floor(partE/100)]
-							if (result == "") result = prefix + prefixes2[e2]
-							else result = prefix + prefixes2[e2] + '-' + result
-						}
-						exponent = Math.floor(exponent/1000)
-						e2++
-					}
-					document.getElementById('result').innerHTML = "<b>Results</b>:<br><b>Standard</b>: "+mantissa.toFixed(2)+" "+result+"<br><b>AAS</b>: "+AAS(value)
-				}
-			}
-		}
-		
-		function doHighStandard(e) {
-			let prefixes = [
-			['', 'U', 'D', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'O', 'N'],
-			['', 'Dc', 'Vg', 'Tg', 'Qd', 'Qi', 'Se', 'St', 'Og', 'Nn'],
-			['', 'Ce', 'Dn', 'Tc', 'Qe', 'Qu', 'Sc', 'Si', 'Oe', 'Ne']]
-			let prefixes2 = ['', 'MI', 'MC', 'NA', 'PC', 'FM', 'AT', 'ZP', 'YC', 'XN', 
-			'VE', 'ME', 'DE', 'TE', 'TeE', 'PE', 'HE', 'HeE', 'OC', 'EC', 
-			'IS', 'MS', 'DS', 'TS', 'TeS', 'PS', 'HS', 'HeS', 'OS', 'ES', 
-			'TN', 'MTN', 'DTN', 'TTN', 'TeTN', 'PTN', 'HTN', 'HeTN', 'OTN', 'ETN', 
-			'TeC', 'MTeC', 'DTeC', 'TTeC', 'TeTeC', 'PTeC', 'HTeC', 'HeTeC', 'OTeC', 'ETeC', 
-			'PC', 'MPC', 'DPC', 'TPC', 'TePC', 'PPC', 'HPC', 'HePC', 'OPC', 'EPC', 
-			'HC', 'MHC', 'DHC', 'THC', 'TeHC', 'PHC', 'HHC', 'HeHC', 'OHC', 'EHC', 
-			'HeC', 'MHeC', 'DHeC', 'THeC', 'TeHeC', 'PHeC', 'HHeC', 'HeHeC', 'OHeC', 'EHeC', 
-			'OC', 'MOC', 'DOC', 'TOC', 'TeOC', 'POC', 'HOC', 'HeOC', 'OOC', 'EOC', 
-			'EC', 'MEC', 'DEC', 'TEC', 'TeEC', 'PEC', 'HEC', 'HeEC', 'OEC', 'EEC', 
-			'HT', 'MHT', 'DHT']
-			let prefixes2H = [
-			['', 'M', 'D', 'T', 'Te', 'P', 'H', 'He', 'O', 'E'],
-			['', 'E', 'S', 'TN', 'TeC', 'PeC', 'HC', 'HeC', 'OC', 'EC'],
-			['', 'HT', 'DT', 'TT', 'TeT', 'PT', 'HT', 'HeT', 'OT', 'ET']]
-			let prefixes3 = ["", "KA", "MG", "GI", "TR", "PT"]
-			var result = ''
-			if (typeof(e)=="number") {
-				var id = Math.floor(e/3-1)
-				var log = Math.floor(Math.log10(id))
-				var step = Math.max(Math.floor(log/3-3),0)
-				id = Math.round(id/Math.pow(10,Math.max(log-9,0)))*Math.pow(10,Math.max(log-9,0)%3)
-			} else {
-				var id = e.div(3)
-				var log = Math.floor(id.log10())
-				var step = Math.max(Math.floor(log/3-3),0)
-				id = Math.round(id.div(Decimal_BI.pow(10,Math.max(log-9,0))).toNumber())*Math.pow(10,Math.max(log-9,0)%3)
-			}
-			while (id > 0) {		
-				var partE = id % 1000
-				if (partE > 0) {
-					if (partE == 1 && step > 0) var prefix = ""
-					else var prefix = prefixes[0][partE % 10] + prefixes[1][Math.floor(partE/10) % 10] + prefixes[2][Math.floor(partE/100)]
-					var result2 = ""
-					if (step > 102) {
-						var s2 = step
-						var stepT3 = 0
-						while (s2 > 0) {
-							partS = s2 % 1000
-							if (partS > 0) {
-								if (partS > 1 || stepT3 < 1) {
-									prefix2 = prefixes2H[1][Math.floor(partS/10)%10]
-									if (partS%100==10) prefix2 = "VE"
-									if (partS%100==20) prefix2 = "IS"
-									prefix2 = prefixes2H[0][partS%10] + prefix2 + prefixes2H[2][Math.floor(partS/100)]
-								} else prefix2 = ""
-								if (result2 == "") result2 = prefix2 + prefixes3[stepT3]
-								else result2 = prefix2 + prefixes3[stepT3] + "a-" + result2
-							}
-							s2 = Math.floor(s2/1000)
-							stepT3++
-						}
-						
-					} else result2 = prefixes2[step]
-					if (result == "") result = prefix + result2
-					else result = prefix + result2 + '-' + result
-				}
-				id = Math.floor(id/1000)
-				step++
-			}
-			document.getElementById('result').innerHTML = "<b>Results</b>:<br>Shortened <b>Standard</b>: "+result+"s"
-		}
-		
-		function AAS(value) {
-			var exponent = value.e
-			var mantissa = (value.m * Math.pow(10, exponent % 3)).toFixed(Math.max(2 - exponent % 3, 0))
-			if (typeof(exponent) != "number") return getAASAbbreviation(exponent.div(3))
-			if (parseFloat(mantissa) == 1e3) {
-				mantissa = (1).toFixed(2)
-				exponent += 3
-			}
-			return (exponent < 3e9 + 3 ? mantissa : "") + getAASAbbreviation(Math.floor(exponent / 3) - 1)
-		}
-		
-		function getAASAbbreviation(x) {
-			if (x == 0) return "k"
-			if (x == 1) return "M"
-			if (x == 2) return "B"
-			if (x < 0) return "?"
-			const units = ["", "U", "D", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "N"]
-			const tens = ["", "D", "Vg", "Tg", "Qg", "Qq", "Sg", "St", "Og", "Ng"]
-			const hundreds = ["", "Ce", "Dc", "Tc", "Qe", "Qu", "Se", "Su", "Oe", "Ne"]
-			const special = ["", "Mi", "Mc", "Na", "Pi", "Fe", "At", "Ze", "Yo", "Xn"]
-			const specialUnits = ["", "Me", "De", "Te", "Tr", "Pe", "He", "Hp", "Ot", "En"]
-			const specialTens = ["", "Vc", "Ic", "Ti", "Tn", "Pc", "Hc", "Ht", "On", "Ec"]
-			const specialHundreds = ["", "Ht", "Dt", "Tt", "Th", "Pt", "Hh", "Ha", "Oh", "Et"]
-			const superSpecial = ["", "Kl", "Mg", "Gi", "Ta", "Pa"]
-			let log = Math.floor(Math.log10(x))
-			let result = ""
-			if (typeof(x) != "number") {
-				log = Math.floor(x.log10())
-				var step = Math.floor(log/3-2)
-				x = Math.floor(x.div(Decimal_BI.pow(10,step*3+log%3)).toNumber())*Math.pow(10,log%3)
-			} else if (log > 8) {
-				var step = Math.floor(log/3-3)
-				if (log > 29) step = Math.floor(log/3-2)
-				x = Math.floor(x/Math.pow(10,step*3+log%3))*Math.pow(10,log%3)
-			} else var step = 0
-			while (x > 0) {
-				var subResult = ""
-				var y = x%1e3
-				if (y > 0) { 
-					if (y > 1 || step == 0) {
-						if (y % 100 == 2) subResult = "Du" + hundreds[Math.floor(y/100)%10]
-						else subResult = units[y%10] + tens[Math.floor(y/10)%10] + hundreds[Math.floor(y/100)%10]
-					}
-					var x2 = step
-					var step2 = 0
-					var tier2 = ""
-					while (x2 > 0) {
-						if (tier2 != "") tier2 = "a" + tier2
-						if (x2 % 1e3 > 0) tier2 = superSpecial[step2] + tier2
-						if (x2 < 9 && step2 < 1) tier2 = special[x2] + tier2
-						else if (x2 > 10 && x2 < 20 && step2 < 1) tier2 = specialUnits[x2%10] + tier2
-						else if (x2 % 1e3 > 1 || step2 < 1) tier2 = specialUnits[x2%10] + specialTens[Math.floor(x2/10)%10] + specialHundreds[Math.floor(x2/100)%10] + tier2
-						x2 = Math.floor(x2/1e3)
-						step2++
-					}
-					result = subResult + tier2 + result
-				}
-				x = Math.floor(x/1e3)
-				step++
-			}
-			if (log > 8) result += "s"
-			return result
-		}
-	</script>
+	<script type="text/javascript" src="javascripts/standard_conversion.js"></script>
 </head>
 <body>
+	<div style="position:fixed;width:100%;height:100%;z-index:-1;background:linear-gradient(#001f2f, #002f1f)">
 	<div style='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)'>
 		<input id="number" onchange="toStandard()" style='width:300px'>
-		<div id='result'>Enter a number to convert to Standard and Aarex's Abbreviation System.</div>
+		<button onclick="clearValue()">Clear</button>
+		<div id="result"></div>
+		<div id='start'>
+			Enter a number between 0 and 1e3e3000000000000000 to show the abbreviations.
+			<br><br>
+			Examples:<br>
+			1104456<br>
+			e129<br>
+			e139405<br>
+			e27041394339<br>
+			e1e47587676<br>
+			e1e65463105970<br>
+			e1e34424326537<br>
+			e1e77989981219700<br>
+			e1e211158879452020<br>
+			e1e2398852987825115<br>
+		</div>
 	</div>
+	<div style='position:fixed;bottom:0;width:100%'><a href="index.html">Aarex's Home</a> | <a href="googology.html">Aarex's Googology</a> | <a href="https://docs.google.com/document/d/1K8Oj1As5p8S4hq_9zY_ZD29jdkLw7ZRV7Ka-5J8toE4/edit">Source</a></div>
 </body>
