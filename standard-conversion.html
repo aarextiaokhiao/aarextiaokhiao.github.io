@@ -16,7 +16,7 @@
 			font-family: 'Roboto Mono';
 		}
 	</style>
-	<script type="text/javascript" src="javascripts/confractus_numerus.js"></script>
+	<script type="text/javascript" src="javascripts/break_eternity.min.js"></script>
 	<script type="text/javascript" src="javascripts/standard_conversion.js"></script>
 </head>
 <body>
@@ -24,6 +24,7 @@
 	<div style='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)'>
 		<input id="number" onchange="toStandard()" style='width:300px'>
 		<button onclick="clearValue()">Clear</button>
+		<div id="converted"></div>
 		<div id="result"></div>
 		<div id='start'>
 			Enter a number between 0 and 1e3e3000000000000000 to show the abbreviations.

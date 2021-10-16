@@ -52,36 +52,23 @@ function toTier2Abb(t2, t3 = 0, aas) {
 	return r
 }
 
-function toTier2AbbFull(t2, aas) {
-	if (!t2) return ""
-
-	let prefixes2 = aas ? [
-		["", "Mi", "Mc", "Na", "Pi", "Fe", "At", "Ze", "Yo", "Xn"],
-		["", "Me", "Du", "Tr", "Te", "P", "Hx", "Hp", "Ot", "E"],
-		["", "c", "Ic", "Tcn", "Trc", "Pcn", "Hcn", "Hpc", "Ocn", "Ecn"],
-		["", "Hc", "Dh", "Th", "Trh", "Ph", "Hh", "Hph", "Oh", "Eh"]
-	] : [
-		['', 'MI', 'MC', 'NA', 'PC', 'FM', 'AT', 'ZP', 'YC', 'XN'],
-		['', 'ME', 'DU', 'TR', 'TE', 'P', 'HX', 'HP', 'OT', 'E'],
-		['', 'C', 'IC', 'TCN', 'TRC', 'PCN', 'HCN', 'HPC', 'OCN', 'ECN'],
-		['', 'HC', 'DH', 'TH', 'TRH', 'PH', 'HH', 'HPH', 'OH', 'EH']
-	]
-	let r = ''
-
-	if (t2 > 1 || t3 == 0) {
-		if (t2 < 10) return standardize(prefixes2[0][t2] + toTier3Abb(t3), aas)
-		if (t2 % 100 == 10) r = 'V'
-		else r = prefixes2[1][t2 % 10]
-		if (!aas || (t2 <= 10 || t2 >= 20)) r += prefixes2[2][Math.floor(t2 / 10) % 10]
-		r += prefixes2[3][Math.floor(t2 / 100)]
-	}
-	r += standardize(toTier3Abb(t3))
+function toTier2AbbFull(t2, aas) {	
+	var r = ""
+	if (t2 > 102) {
+		var s3 = 0
+		while (t2 > 0) {
+			partS = t2 % 1000
+			if (partS > 0) r = toTier2Abb(partS, s3, aas) + (r ? 'a-' + r : '')
+			t2 = Math.floor(t2/1000)
+			s3++
+		}
+	} else r = toTier2Abb(t2, 0, aas)
 	return r
 }
 
 function toTier3Abb(t3, t4 = 0, aas) {
 	if (!t3) return ""
-	return (["", "Ka", "Mg", "Gi", "Ter", "Pt"])[t3]
+	return (["", "Ka", "Mg", "Gi", "Ter", "Pt", "Ex", "Zt", "Yt", "Xe", "Dk"])[t3]
 }
 
 function standardize(x, aas) {
@@ -97,32 +84,74 @@ function clearValue() {
 function toStandard() {
 	if (!document.getElementById("number").value) {
 		document.getElementById("result").style.display = "none"
+		document.getElementById("converted").style.display = "none"
 		document.getElementById("start").style.display = ""
 		return
 	} else {
 		document.getElementById("result").style.display = ""
+		document.getElementById("converted").style.display = ""
 		document.getElementById("start").style.display = "none"
 	}
 
 	var value = new Decimal(document.getElementById("number").value)
-	// if (value.gt(1/0)) document.getElementById('result').innerHTML = "<b>Result</b>: <b style='color:#e50000'>&#x221e;</b>"
-	if (Decimal_BI.gte(value.logarithm, Decimal_BI.pow(10, 3e15).times(3))) document.getElementById('result').innerHTML = "<b>Result</b>: " + doHighStandard(Decimal_BI.pow(10, 3e15).times(3)) + " (capped at 1e3e3000000000000000)"
-	else if (Decimal_BI.gte(value.logarithm, 3e60 + 3)) {
-		document.getElementById('result').innerHTML = "<b>Result</b>: " + doHighStandard(value.logarithm)
-	} else if (Decimal_BI.gte(value.logarithm, 3e9 + 3)) {
-		document.getElementById('result').innerHTML = "<b>Results</b>:<br>Shortened <b>Standard</b>: " + doHighStandard(value.logarithm) +
-			"<br><b>AAS</b>: " + doHighStandard(value.logarithm, true)
+	var neg = value.lt(0) ? "-" : ""
+	var log = value.abs().log10()
+	if (value.eq(0)) log = new Decimal(0)
+	var recp = value.abs().lt(0.01)
+	var recpText = recp ? "1 / " : ""
+
+	//Converted
+	var mag = value.mag
+	var layer = value.layer
+	var recp2 = false
+	if (mag < 0 && layer > 0) {
+		recp2 = true
+		mag = -mag
+	}
+	if (mag >= 1e15) {
+		mag = Math.log10(mag)
+		layer++
+	}
+	document.getElementById("converted").textContent = neg + (layer > 0 ? "e" + (recp2 ? "-" : "") : "") + (layer > 1 ? "e".repeat(layer - 1) : "") + doStandard(new Decimal(mag)) + " = "
+
+	//Standard
+	var logAbs = log.abs()
+	if (Decimal.pow(10, 3e30).lt(logAbs)) document.getElementById('result').innerHTML = neg + recpText + doHighStandard(Decimal.pow(10, 3e30)) + " (capped at " + neg + "1e" + (recp ? "-" : "") + "1e3e30)"
+	else if (logAbs.gte(3e60 + 3)) {
+		document.getElementById('result').innerHTML = neg + recpText + doHighStandard(logAbs)
+	} else if (logAbs.gte(3e9 + 3)) {
+		document.getElementById('result').innerHTML = "<br>Shortened <b>Standard</b>: " + neg + recpText + doHighStandard(logAbs) +
+			"<br><b>AAS</b>: " + neg + doHighStandard(logAbs, true)
+	} else doStandard(value, true)
+
+	if (logAbs.gte(Decimal.pow(10, 3e15))) document.getElementById('result').innerHTML += "<br><b style='color: red'>WARNING! STANDARD STARTS TO IMPRECISE AT ee3e15. THIS IS EXPERIMENTAL ZONE.</b>"
+}
+
+function doStandard(v, disp) {
+	var prefix = ""
+	if (v.lt(0)) {
+		v = v.neg()
+		prefix += "-"
+	}
+	if (v.gt(0) && v.lt(0.01)) {
+		v = v.recip()
+		prefix += "1 / "
+	}
+
+	var mantissa = v.m
+	var exponent = v.e
+	mantissa = mantissa * Math.pow(10, exponent % 3)
+	exponent = exponent - exponent % 3
+	if (Math.abs(mantissa) >= 999.995) {
+		mantissa /= 1000
+		exponent += 3
+	}
+	if (exponent < 3) {
+		if (disp) document.getElementById('result').innerHTML = prefix + mantissa.toFixed(2)
+		else return mantissa.toFixed(2)
 	} else {
-		var mantissa = value.m
-		var exponent = value.e
-		mantissa = mantissa * Math.pow(10, exponent % 3)
-		exponent = exponent - exponent % 3
-		if (mantissa >= 999.995) {
-			mantissa /= 1000
-			exponent += 3
-		}
-		if (exponent < 3) document.getElementById('result').innerHTML = "<b>Result</b>: " + mantissa.toFixed(2)
-		else if (exponent < 309) document.getElementById('result').innerHTML = "<b>Results</b>:<br><b>Standard</b>: "+mantissa.toFixed(2) + " " + smallAbbs[exponent / 3] + "<br><b>AAS</b>: " + AAS(value)
+		if (disp) var aas = AAS(v)
+		if (exponent < 309) var result = smallAbbs[exponent / 3]
 		else {
 			var result = ''
 			exponent = Math.floor(exponent / 3) - 1;
@@ -133,48 +162,30 @@ function toStandard() {
 				exponent = Math.floor(exponent / 1000)
 				e2++
 			}
-			document.getElementById('result').innerHTML = "<b>Results</b>:<br><b>Standard</b>: "+mantissa.toFixed(2)+" "+result+"<br><b>AAS</b>: "+AAS(value)
 		}
+		if (disp) document.getElementById('result').innerHTML = "<br><b>Standard</b>: "+prefix+mantissa.toFixed(2)+" "+result+"<br><b>AAS</b>: "+prefix+aas
+		else return prefix+mantissa.toFixed(2)+" "+result
 	}
 }
 
 function doHighStandard(e, aas) {
-	var isNum = typeof(e) == "number"
-	if (isNum) {
-		var id = Math.floor(e / 3 - 1)
-		var log = Math.floor(Math.log10(id))
-	} else {
-		var id = e.div(3)
-		var log = Math.floor(id.log10())
-	}
-	var precise = Math.max(Math.floor(9 - Math.log10(log)), 0)
+	var id = e.div(3)
+	var mant = id.m
+	var log = id.e
+	var precise = Math.max(Math.floor(8 - Math.log10(log)), 0)
 	var offset = log - precise
 	var step = Math.floor(offset / 3)
-	if (isNum) {
-		id = Math.round(id / Math.pow(10, offset)) * Math.pow(10, offset - step * 3)
-	} else {
-		id = Math.round(id.div(Decimal_BI.pow(10, offset)).toNumber()) * Math.pow(10, offset - step * 3)
-	}
+	id = Math.round(mant * Math.pow(10, precise)) * Math.pow(10, offset - step * 3)
+
+	if (log >= 1e9) return toTier2AbbFull(step) + "s"
 
 	var result = ''
 	while (id > 0) {		
 		var partE = id % 1000
 		if (partE > 0) {
-			if (partE == 1 && step > 0) var prefix = ""
-			else var prefix = toTier1Abb(partE, "root", aas)
-			var result2 = ""
-			if (step > 102) {
-				var s2 = step
-				var stepT3 = 0
-				while (s2 > 0) {
-					partS = s2 % 1000
-					if (partS > 0) result2 = toTier2Abb(partS, stepT3, aas) + (result2 ? 'a-' + result2 : '')
-					s2 = Math.floor(s2/1000)
-					stepT3++
-				}
-				
-			} else result2 = toTier2Abb(step, 0, aas)
-			if (partE > 0) result = prefix + result2 + (result ? '-' + result : '')
+			var prefix = ""
+			if (partE > 1 || step == 0) prefix = toTier1Abb(partE, "root", aas)
+			if (partE > 0) result = prefix + toTier2AbbFull(step) + (result ? '-' + result : '')
 		}
 		id = Math.floor(id / 1000)
 		step++
