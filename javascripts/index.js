@@ -1,4 +1,4 @@
-let dark_mode = localStorage.getItem(btoa("aarexs_site_dark_mode"))
+let dark_mode = parseInt(localStorage.getItem(btoa("aarexs_site_dark_mode"))) || 0
 
 function on_page_load() {
 	create_element("theme", "button", "header")
@@ -11,7 +11,7 @@ function on_page_load() {
 
 function toggle_dark_mode(on_load) {
 	if (!on_load) {
-		dark_mode = !dark_mode
+		dark_mode = dark_mode ? 0 : 1
 		localStorage.setItem(btoa("aarexs_site_dark_mode"), dark_mode)
 	}
 	change_class("body", dark_mode ? "dark" : "")
