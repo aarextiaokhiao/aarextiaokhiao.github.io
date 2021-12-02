@@ -1,10 +1,6 @@
 var smallAbbs = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'Oc', 'No', 'Dc', 'UDc', 'DDc', 'TDc', 'QaDc', 'QtDc', 'SxDc', 'SpDc', 'ODc', 'NDc', 'Vg', 'UVg', 'DVg', 'TVg', 'QaVg', 'QtVg', 'SxVg', 'SpVg', 'OVg', 'NVg', 'Tg', 'UTg', 'DTg', 'TTg', 'QaTg', 'QtTg', 'SxTg', 'SpTg', 'OTg', 'NTg', 'Qd', 'UQd', 'DQd', 'TQd', 'QaQd', 'QtQd', 'SxQd', 'SpQd', 'OQd', 'NQd', 'Qi', 'UQi', 'DQi', 'TQi', 'QaQi', 'QtQi', 'SxQi', 'SpQi', 'OQi', 'NQi', 'Se', 'USe', 'DSe', 'TSe', 'QaSe', 'QtSe', 'SxSe', 'SpSe', 'OSe', 'NSe', 'St', 'USt', 'DSt', 'TSt', 'QaSt', 'QtSt', 'SxSt', 'SpSt', 'OSt', 'NSt', 'Og', 'UOg', 'DOg', 'TOg', 'QaOg', 'QtOg', 'SxOg', 'SpOg', 'OOg', 'NOg', 'Nn', 'UNn', 'DNn', 'TNn', 'QaNn', 'QtNn', 'SxNn', 'SpNn', 'ONn', 'NNn', 'Ce', 'UCe'];
 
 function toTier1Abb(t1, t2, aas) {
-	if (aas) {
-		if (t1 < 3 && t2 == 0) return ["k", "M", "B"][t1]
-	} else if (t1 < 102 && t2 == 0) return smallAbbs[t1]
-
 	let prefixes = aas ? [
 		["", "U", "D", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "N"],
 		["", "De", "Vg", "Tg", "Qg", "Qq", "Sg", "St", "Og", "Ng"],
@@ -28,17 +24,13 @@ function toTier1Abb(t1, t2, aas) {
 function toTier2Abb(t2, t3 = 0, aas) {
 	if (!t2) return ""
 
-	let prefixes2 = aas ? [
-		["", "Mi", "Mc", "Na", "Pi", "Fe", "At", "Ze", "Yo", "Xn"],
+	let prefixes2 = [
+		["", "Mi", "Mc", "Na", "Pc", "Fe", "At", "Zp", "Yc", "Xn"],
 		["", "Me", "Du", "Tr", "Te", "P", "Hx", "Hp", "Ot", "E"],
 		["", "c", "Ic", "Tcn", "Trc", "Pcn", "Hcn", "Hpc", "Ocn", "Ecn"],
 		["", "Hc", "Dh", "Th", "Trh", "Ph", "Hh", "Hph", "Oh", "Eh"]
-	] : [
-		['', 'MI', 'MC', 'NA', 'PC', 'FM', 'AT', 'ZP', 'YC', 'XN'],
-		['', 'ME', 'DU', 'TR', 'TE', 'P', 'HX', 'HP', 'OT', 'E'],
-		['', 'C', 'IC', 'TCN', 'TRC', 'PCN', 'HCN', 'HPC', 'OCN', 'ECN'],
-		['', 'HC', 'DH', 'TH', 'TRH', 'PH', 'HH', 'HPH', 'OH', 'EH']
 	]
+
 	let r = ''
 
 	if (t2 > 1 || t3 == 0) {
@@ -48,7 +40,7 @@ function toTier2Abb(t2, t3 = 0, aas) {
 		if (!aas || (t2 <= 10 || t2 >= 20)) r += prefixes2[2][Math.floor(t2 / 10) % 10]
 		r += prefixes2[3][Math.floor(t2 / 100)]
 	}
-	r += standardize(toTier3Abb(t3))
+	r = standardize(r + toTier3Abb(t3), aas)
 	return r
 }
 
@@ -116,9 +108,9 @@ function toStandard() {
 
 	//Standard
 	var logAbs = log.abs()
-	if (Decimal.pow(10, 3e30).lt(logAbs)) document.getElementById('result').innerHTML = neg + recpText + doHighStandard(Decimal.pow(10, 3e30)) + " (capped at " + neg + "1e" + (recp ? "-" : "") + "1e3e30)"
+	if (Decimal.pow(10, 3e30).lt(logAbs)) document.getElementById('result').innerHTML = neg + recpText + doHighStandard(Decimal.pow(10, 3e30), true) + " (capped at " + neg + "1e" + (recp ? "-" : "") + "1e3e30)"
 	else if (logAbs.gte(3e60 + 3)) {
-		document.getElementById('result').innerHTML = neg + recpText + doHighStandard(logAbs)
+		document.getElementById('result').innerHTML = neg + recpText + doHighStandard(logAbs, true)
 	} else if (logAbs.gte(3e9 + 3)) {
 		document.getElementById('result').innerHTML = "<br>Shortened <b>Standard</b>: " + neg + recpText + doHighStandard(logAbs) +
 			"<br><b>AAS</b>: " + neg + doHighStandard(logAbs, true)
@@ -177,7 +169,7 @@ function doHighStandard(e, aas) {
 	var step = Math.floor(offset / 3)
 	id = Math.round(mant * Math.pow(10, precise)) * Math.pow(10, offset - step * 3)
 
-	if (log >= 1e9) return toTier2AbbFull(step) + "s"
+	if (log >= 1e9) return toTier2AbbFull(step, true) + "s"
 
 	var result = ''
 	while (id > 0) {		
@@ -185,7 +177,7 @@ function doHighStandard(e, aas) {
 		if (partE > 0) {
 			var prefix = ""
 			if (partE > 1 || step == 0) prefix = toTier1Abb(partE, "root", aas)
-			if (partE > 0) result = prefix + toTier2AbbFull(step) + (result ? '-' + result : '')
+			if (partE > 0) result = prefix + toTier2AbbFull(step, aas) + (result ? '-' + result : '')
 		}
 		id = Math.floor(id / 1000)
 		step++
@@ -200,10 +192,12 @@ function AAS(value) {
 		mantissa = (1).toFixed(2)
 		exponent += 3
 	}
-	return (exponent < 3e9 + 3 ? mantissa : "") + getAASAbbreviation(Math.floor(exponent / 3) - 1)
+	return (exponent < 3e9 + 3 ? mantissa + " " : "") + getAASAbbreviation(Math.floor(exponent / 3) - 1)
 }
 
 function getAASAbbreviation(x) {
+	if (x < 3) return ["k", "M", "B"][x]
+
 	var result = ''
 	e2 = 0
 	while (x > 0) {		
