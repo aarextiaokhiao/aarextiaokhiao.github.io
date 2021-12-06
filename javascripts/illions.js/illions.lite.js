@@ -4,6 +4,8 @@
 		GEN. VI-Mu: Lightning-Thornus [Tria-Respeccus III]
 		Epsilon Stage
 	A lighter program that generates -illion names and abbrevations up to icosillion.
+
+	[DECIMAL LIBRARY IS REQUIRED] https://github.com/aarextiaokhiao/magna_numerus.js/blob/master/logarithmica_numerus_lite.js
 	
 	See about illions.js at: https://github.com/aarextiaokhiao/illions.js
 	Feel free to use it at: https://github.com/aarextiaokhiao/illions.js/blob/main/illions.lite.js
@@ -12,44 +14,27 @@
 	Sources:
 		Tier 1 - 4: https://sites.google.com/site/largenumbers/home/2-4/8
 		            https://sites.google.com/site/pointlesslargenumberstuff/home/1/bowersillions
-		Tamara's Illions: https://tamaramacadam.me/maths/largenumbers/illions.html
 */
 
+//OPTIONS
+const ILLIONS_OPTIONS = {
+	prec: 4, //Significant digits [3 - 9]
+	precPoint: 5, //10^10^x before simplification [6 - 9]
+	eng: true, //Uses english names for tier-1 illions + millillion.
+}
+
+//GLOBAL FUNCTIONS
+function abbreviate(x) { return ILLIONS_FUNCTIONS.format(x) }
+function standard(x) { return ILLIONS_FUNCTIONS.abb(x, 1) }
+function illion(x) { return ILLIONS_FUNCTIONS.abb(x, 1, "name") + (Decimal.eq(x, 0) ? "" : "illion") }
+function name(x) { return ILLIONS_FUNCTIONS.name(x) }
+function english(x) { return ILLIONS_FUNCTIONS.english(x) }
+
+
+
+
+//MODULE
 let ILLIONS = {
-	0: {
-		name: {
-			data: {
-				o: ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"],
-				teen: ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"],
-				t: ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
-			},
-			format(x) {
-				//SETUP
-				var d = this.data
-
-				//HTO
-				var hto = ILLIONS_FUNCTIONS.HTO(x)
-				var h = hto.h
-				var t = hto.t
-				var o = hto.o
-
-				//FORMAT
-				let r = ""
-				if (h > 0) r += d.o[h] + " hundred"
-				if (t > 0 || o > 0) {
-					if (r) r += " "
-					if (t == 1) r += d.teen[t]
-					else r += d.t[t] + (t > 0 && o > 0 ? "-" : "") + d.o[o]
-				}
-				return r
-			}
-		},
-		abb: {
-			format(x) {
-				return x
-			}
-		}
-	},
 	1: {
 		name: {
 			data: {
@@ -75,10 +60,16 @@ let ILLIONS = {
 
 				var end = ty == "mul" ? "i" : ""
 				if (x == 0 && ty == "") return d.o_s[0]
-				if (x <= 2 && ty != "") return d[ILLIONS_OPTIONS.eng ? "o_eng_t2" : "o_s_t2"][x] + (ty == "mul" ? "" : end)
+				if (x <= 2 && ty != "") return d[ty == "add" && ILLIONS_OPTIONS.eng ? "o_eng_t2" : "o_s_t2"][x] + (ty == "mul" ? "" : end)
 				if (x < 10) return d.o_s[x] + end
-				if (ILLIONS_OPTIONS.eng && h > 0 && o == 3) return dh[h] + "itret" + (ty == "mul" ? "i" : end)
-				return d.o[o] + d.t[t] + (t > 0 && h > 0 ? "i" : "") + dh[h] + end
+				if (ILLIONS_OPTIONS.eng && h > 0 && o == 3) return dh[h] + "ret" + end
+				if (ty == "mul" && t > 0 && h == 0) end = this.combineTen(t, 1)
+				return d.o[o] + d.t[t] + this.combineTen(t, h) + dh[h] + end
+			},
+			combineTen(t, h) {
+				if (t == 0 || h == 0) return ""
+				if (t >= 3 && ILLIONS_OPTIONS.eng) return "a"
+				return "i"
 			}
 		},
 		abb: {
@@ -144,11 +135,6 @@ let ILLIONS = {
 	}
 }
 
-let ILLIONS_OPTIONS = {
-	prec: 6, //Default: 6 significant digits [3 - 9]
-	eng: true //Uses english names for tier-1 illions + millillion.
-}
-
 let ILLIONS_FUNCTIONS = {
 	HTO(x) {
 		return {
@@ -159,22 +145,29 @@ let ILLIONS_FUNCTIONS = {
 	},
 
 	safeAbb(x, t, ty, k) {
-		if (x == 0) return
-		if (t <= 2) return ILLIONS[t][k].format(x, ty)
-		else console.error("Tier 3+ abbreviations aren't supported.")
+		if (x == 1 && ty == "mul") return ""
+		if (x == 0 && (t > 1 || ty != "")) return ""
+		if ((x > 20 && t == 2) || t >= 3) {
+			console.error("[illions.lite.js] To go beyond Icosillions, see: https://github.com/aarextiaokhiao/illions.js/blob/main/illions.js")
+			return "?"
+		}
+		if (x >= 1e3) return this.abb(x, t, k)
+		return ILLIONS[t][k].format(x, ty)
 	},
 	abb(x, t = 1, k = "abb") {
 		x = new Decimal(x)
 
 		var e = x.e
+		if (e == 1/0) return this.abb(x.log10().div(3), t + 1, k)
+
 		var ee = Math.floor(Math.max(Math.log10(x.e), 0))
-		var mul = Math.pow(10, Math.max(ILLIONS_OPTIONS.prec - 1 - ee, 0))
+		var mul = Math.pow(10, Math.max(Math.min(ILLIONS_OPTIONS.precPoint - ee, ILLIONS_OPTIONS.prec) - 1, 0))
 		var m = Math.floor((x.m + Math.pow(10, ee - 12)) * mul) / mul
 		if (m >= 10) {
 			m /= 10
 			e++
 		}
-		if (ee >= ILLIONS_OPTIONS.prec) {
+		if (ee >= ILLIONS_OPTIONS.precPoint) {
 			if (t == 1 && k == "name") return this.abb(Math.floor(e / 3), t + 1, k) + "illion"
 			return this.abb(Math.floor(e / 3), t + 1, k)
 		}
@@ -188,11 +181,10 @@ let ILLIONS_FUNCTIONS = {
 			if (e3 - p < 0) continue
 			if (e3 == 0 || i > 0) {
 				end = e3 - p
-				if (end == 0 || i > 1) r += ILLIONS[t][k].format(i, end > 0 ? "mul" : e3 > 0 ? "add" : "")
+				if (end == 0 || i > 1) r += this.safeAbb(i, t, end > 0 ? "mul" : e3 > 0 ? "add" : "", k)
 				if (end > 0) r += this.safeAbb(end, t + 1, p == 2 || m % Math.pow(10, 6 - 3 * p) == 0 ? "" : "end", k)
 			}
 		}
-		if (t == 1 && k == "name") r += "illion"
 		return r
 	},
 
@@ -201,13 +193,25 @@ let ILLIONS_FUNCTIONS = {
 		if (x.lt(1)) return x.toFixed(2)
 
 		var e = x.e
-		var e3 = Math.floor(e / 3)
-		if (e >= Math.pow(10, ILLIONS_OPTIONS.prec)) return this.abb(e3 - 1, 1, k)
+		var ill = (e >= 6 && k == "name" ? "illion" : "")
+		if (e == 1/0) return this.abb(x.log10().div(3), 1, k) + ill
 
-		return (x.m * Math.pow(10, e - e3 * 3)).toFixed(2) + (e3 > 0 ? " " + this.abb(e3 - 1, 1, k) : "")
+		var e3 = Math.floor(e / 3)
+		if (e >= Math.pow(10, ILLIONS_OPTIONS.precPoint)) return this.abb(e3 - 1, 1, k) + ill
+
+		var m = (x.m * Math.pow(10, e - e3 * 3)).toFixed(2)
+		if (m >= 1e3) {
+			m = "1.00"
+			e++
+			e3++
+		}
+		return m +
+			(e3 > 0 ? " " + this.abb(e3 - 1, 1, k) : "") +
+			ill
 	},
 }
 
+//END OF ILLIONS.LITE.JS
 console.log(
 	`
 	illions.lite.js
@@ -215,9 +219,13 @@ console.log(
 		GEN. VI-Mu: Lightning-Thornus [Tria-Respeccus III]
 		Epsilon Stage
 	A lighter program that generates -illion names and abbrevations up to icosillion.
+
+	[DECIMAL LIBRARY IS REQUIRED] https://github.com/aarextiaokhiao/magna_numerus.js/blob/master/logarithmica_numerus_lite.js
 	
 	See about illions.js at: https://github.com/aarextiaokhiao/illions.js
 	Feel free to use it at: https://github.com/aarextiaokhiao/illions.js/blob/main/illions.lite.js
 	See the expanded version at: https://github.com/aarextiaokhiao/illions.js/blob/main/illions.js
+
+	Type 'illion(31415926535)' in your developer console to see an example!
 	`
 )
