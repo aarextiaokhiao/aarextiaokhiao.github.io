@@ -6,7 +6,7 @@ function on_page_load() {
 		toggle_dark_mode()
 	}
 	toggle_dark_mode(true)
-	get_body().style.setProperty('--animation_duration', "0.5s")
+	get_body().style.setProperty('--animation_duration', "0.4s")
 }
 
 function toggle_dark_mode(on_load) {
@@ -15,7 +15,7 @@ function toggle_dark_mode(on_load) {
 		localStorage.setItem(btoa("aarexs_site_dark_mode"), dark_mode)
 	}
 	change_class("body", dark_mode ? "dark" : "")
-	change_text("theme", "Dark Mode: " + (dark_mode ? "ON" : "OFF"))
+	change_text("theme", "Dark: " + (dark_mode ? "ON" : "OFF"))
 }
 
 function get_body() {

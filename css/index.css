@@ -1,9 +1,9 @@
 body {
 	margin: 0.25em;
 	font-size: 100%;
-	--background: radial-gradient(farthest-corner at 0 0, #00ffff, white, #ffff00);
-	--box_color: rgba(0, 0, 0, 0.25);
-	--box_shadow: 0.25em 0.25em 0.25em rgba(0, 0, 0, 0.5);
+	--background: linear-gradient(#3fffff, #3fbfff);
+	--box_color: rgba(191, 223, 255, 0.5);
+	--box_shadow: 0 0 0.5em rgba(0, 95, 127, 0.75);
 	--button_color: rgba(255, 255, 255, 0.25);
 	--button_color_hovered: rgba(255, 255, 255, 0.75);
 	--text_color: black;
@@ -14,14 +14,14 @@ body {
 }
 
 body.dark {
-	--background: radial-gradient(farthest-corner at 0 0, #003f3f, black, #3f3f00);
-	--box_color: rgba(255, 255, 255, 0.25);
-	--box_shadow: 0.25em 0.25em 0.25em rgba(255, 255, 255, 0.5);
+	--background: linear-gradient(#2f3f00, #3f3700);
+	--box_color: rgba(255, 255, 0, 0.375);
+	--box_shadow: 0 0 0.5em rgba(255, 255, 0, 1);
 	--button_color: rgba(255, 255, 0, 0.25);
 	--button_color_hovered: rgba(255, 255, 0, 0.75);
-	--text_color: white;
+	--text_color: #efffbf;
 	--text_color_transparency_25: rgba(255, 255, 255, 0.25);
-	--text_color_transparency_50: rgba(255, 255, 255, 0.5);
+	--text_color_transparency_50: #bfff7f;
 	--text_color_transparency_75: rgba(255, 255, 255, 0.75)
 }
 
@@ -91,7 +91,7 @@ div {
 button {
 	background: var(--button_color);
 	border: 0px solid;
-	border-radius: 0.25em;
+	border-radius: 0.5em;
 	box-shadow: var(--box_shadow);
 	height: 2em;
 	width: 12em;
@@ -108,7 +108,14 @@ button:hover {
 }
 
 a {
-	color: rgba(255, 255, 255, 0.75)
+	color: rgba(0, 63, 255, 0.8);
+}
+
+a.link {
+	background: rgba(0, 63, 255, 0.25);
+	border: 0px solid;
+	border-radius: 0.25em;
+	box-shadow: 0 0 0.5em rgba(0, 63, 255, 0.75);
 }
 
 .big {
@@ -170,18 +177,19 @@ a {
 	color: var(--text_color_transparency_25)
 }
 
-.header_box #slogan2 {
+.header_box #slogan2, .header_box #social {
 	height: 0;
 	overflow: hidden;
 	transition-duration: 0.5s
 }
 
-.header_box:hover #slogan2 {
+.header_box:hover #slogan2, .header_box:hover #social {
 	height: 1em
 }
 
 #theme {
 	position: absolute;
+	width: 6em;
 	top: 0.25em;
 	right: 0.25em
 }
