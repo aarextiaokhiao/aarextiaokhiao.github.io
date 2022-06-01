@@ -1,5 +1,5 @@
 /*
-	illions.lite.js
+	illions.lite.js: v2.01
 		By Aarex Tiaokhiao, 2021
 		GEN. VI-Mu: Lightning-Thornus [Tria-Respeccus III]
 		Epsilon Stage
@@ -44,7 +44,7 @@ let ILLIONS = {
 				o: ['', 'un', 'duo', 'tre', 'quattour', 'quin', 'sex', 'septen', 'octo', 'novem'],
 
 				t: ['', 'dec', 'vigint', 'trigint', 'quadragint', 'quinquagint', 'sexagint', 'septuagint', 'octogint', 'nonagint'],
-				h: ['', 'cent', 'ducent', 'tricent', 'quadragent', 'quinquagent', 'sexagent', 'septaugent', 'octogent', 'nonagent'],
+				h: ['', 'cent', 'ducent', 'tricent', 'quadragent', 'quinquagent', 'sexagent', 'septuagent', 'octogent', 'nonagent'],
 				h_eng: ['', 'cent', 'ducent', 'trecent', 'quadringent', 'quingent', 'sescent', 'septingent', 'octingent', 'nongent']
 			},
 			format(x, ty = "") {
@@ -75,9 +75,9 @@ let ILLIONS = {
 		abb: {
 			data: {
 				o_s: ['k', 'M', 'B'],
-				o: ['', 'U', 'D', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'O', 'N'],
-				t: ['', 'Dc', 'Vg', 'Tg', 'Qd', 'Qi', 'Se', 'St', 'Og', 'Nn'],
-				h: ['', 'Ce', 'Dn', 'Tc', 'Qe', 'Qu', 'Sc', 'Si', 'Oe', 'Ne']
+				o: ["", "U", "D", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "N"],
+				t: ["", "De", "Vg", "Tg", "Qg", "Qq", "Sg", "St", "Og", "Ng"],
+				h: ["", "Ce", "Dc", "Tc", "Qe", "Qu", "Se", "Si", "Oe", "Ne"]
 			},
 			format(x, ty) {
 				//SETUP
@@ -214,7 +214,7 @@ let ILLIONS_FUNCTIONS = {
 //END OF ILLIONS.LITE.JS
 console.log(
 	`
-	illions.lite.js
+	illions.lite.js: v2.01
 		By Aarex Tiaokhiao, 2021
 		GEN. VI-Mu: Lightning-Thornus [Tria-Respeccus III]
 		Epsilon Stage
