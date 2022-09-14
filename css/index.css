@@ -1,28 +1,26 @@
-body {
+* {
 	margin: 0.25em;
-	font-size: 100%;
-	--background: linear-gradient(#7fffff, #7fbfff);
-	--box_color: rgba(191, 223, 255, 0.5);
-	--box_shadow: 0 0 3px rgba(0, 63, 255, 0.75), 3px 3px 3px rgba(0, 127, 191, 0.5);
-	--button_color: linear-gradient(#3fbfff, #3f5fff);
-	--button_color_hovered: rgba(255, 255, 255, 0.8);
-	--text_color: black;
-	--text_color_transparency_25: rgba(0, 0, 0, 0.25);
-	--text_color_transparency_50: rgba(0, 0, 0, 0.5);
-	--text_color_transparency_75: rgba(0, 0, 0, 0.75);
-	--animation_duration: 0s
+	text-align: center;
+	font-family: 'Nunito', sans-serif
 }
 
-body.dark {
-	--background: linear-gradient(#2f3f00, #3f3700);
-	--box_color: rgba(255, 255, 0, 0.375);
-	--box_shadow: 0 0 3px rgba(191, 191, 0, 0.75), 3px 3px 3px rgba(63, 95, 0.5);
-	--button_color: rgba(255, 191, 0, 0.25);
-	--button_color_hovered: rgba(255, 255, 0, 0.75);
-	--text_color: #efffbf;
-	--text_color_transparency_25: rgba(255, 255, 255, 0.25);
-	--text_color_transparency_50: #bfff7f;
-	--text_color_transparency_75: rgba(255, 255, 255, 0.75)
+body {
+	font-size: 100%;
+
+	--background: radial-gradient(ellipse at top, #00000f, #00003f);
+
+	--text_color_1: #bfdfff;
+	--text_color_2: #00bfff;
+	--text_color_3: #00bfff;
+	--text_color_4: #00001f;
+
+	--box_color: radial-gradient(ellipse at top, #07fb, #07f3);
+	--box_shadow: 2px 2px 6px rgba(0, 127, 255, 0.5);
+
+	--button_color: radial-gradient(ellipse at top, #07f3, transparent);
+	--button_color_hovered: rgba(255, 255, 255, 0.8);
+
+	--animation_duration: 0s
 }
 
 /*
@@ -30,32 +28,17 @@ HAPPY HALLOWEEN!
 body {
 	margin: 0.25em;
 	font-size: 100%;
+	text-shadow: 0px 0px 3px var(--text_color_1);
 	--background: radial-gradient(farthest-corner at 0 0, #ff7f00, #ffbf00, #ff0000);
 	--box_color: rgba(0, 255, 0, 0.5);
 	--box_shadow: 0em 0em 0.25em rgba(0, 255, 0, 0.5), 0em 0em 1em rgba(0, 255, 0, 0.5);
 	--button_color: rgba(95, 127, 0, 0.5);
 	--button_color_hovered: rgba(255, 255, 255, 0.75);
-	--text_color: #00ff00;
-	--text_color_transparency_25: rgba(0, 255, 0, 0.25);
-	--text_color_transparency_50: rgba(0, 255, 0, 0.5);
-	--text_color_transparency_75: rgba(0, 255, 0, 0.75);
+	--text_color_1: #00ff00;
+	--text_color_2: rgba(0, 255, 0, 0.25);
+	--text_color_3: rgba(0, 255, 0, 0.5);
+	--text_color_4: rgba(0, 255, 0, 0.75);
 	--animation_duration: 0s
-}
-
-body.dark {
-	--background: radial-gradient(farthest-corner at 0 0, #1f003f, black, #3f0000);
-	--box_color: rgba(255, 255, 255, 0.75);
-	--box_shadow: 0em 0em 0.25em rgba(255, 255, 255, 0.5), 0em 0em 1em white;
-	--button_color: rgba(255, 255, 255, 0.5);
-	--button_color_hovered: rgba(255, 255, 255, 0.75);
-	--text_color: #dfdfff;
-	--text_color_transparency_25: rgba(255, 255, 255, 0.25);
-	--text_color_transparency_50: rgba(255, 255, 255, 0.5);
-	--text_color_transparency_75: rgba(255, 255, 255, 0.75)
-}
-
-body {
-	text-shadow: 0px 0px 3px var(--text_color)
 }
 
 /*
@@ -63,9 +46,7 @@ END OF HALLOWEEN
 */
 
 div {
-	margin: 0.25em;
-	color: var(--text_color);
-	font-family: 'Nunito', sans-serif
+	color: var(--text_color_1)
 }
 
 #background {
@@ -95,9 +76,8 @@ button {
 	box-shadow: var(--box_shadow);
 	height: 2em;
 	width: 12em;
-	color: var(--text_color_transparency_50);
+	color: var(--text_color_3);
 	font-size: 1em;
-	font-family: 'Nunito', sans-serif;
 	font-weight: bold;
 	cursor: pointer;
 	transition-duration: var(--animation_duration)
@@ -108,24 +88,25 @@ button:hover {
 }
 
 a {
-	color: rgba(0, 63, 255, 0.8);
+	color: rgba(127, 191, 255, 0.8);
 }
 
 a.link {
 	background: rgba(0, 63, 255, 0.25);
 	border: 0px solid;
 	border-radius: 0.25em;
-	box-shadow: 0 0 0.5em rgba(0, 63, 255, 0.75);
+	box-shadow: 0 0 0.5em rgba(0, 63, 255, 0.5);
 }
 
 .big {
-	color: var(--text_color_transparency_50);
+	color: var(--text_color_3);
 	font-size: 1.5em;
 	font-weight: bold
 }
 
-.red {
-	color: #ff0000
+
+.header {
+	margin: 0
 }
 
 .header_box {
@@ -159,36 +140,15 @@ a.link {
 }
 
 .item:hover {
-	font-size: 0.8em;
 	height: 12em;
 }
 
 .item_fix {
 	position: absolute;
+	width: 18em;
 	color: black
 }
 
 #slogan {
-	color: var(--text_color_transparency_75)
-}
-
-#slogan2 {
-	color: var(--text_color_transparency_25)
-}
-
-.header_box #slogan2, .header_box #social {
-	height: 0;
-	overflow: hidden;
-	transition-duration: 0.5s
-}
-
-.header_box:hover #slogan2, .header_box:hover #social {
-	height: 1em
-}
-
-#theme {
-	position: absolute;
-	width: 6em;
-	top: 0.25em;
-	right: 0.25em
+	color: var(--text_color_4)
 }
