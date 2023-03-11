@@ -1,0 +1,25 @@
+* {
+	margin: 0.25em;
+	text-align: center;
+	font-family: 'Nunito', sans-serif
+}
+
+#background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 0;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(ellipse at top, #00000f, #00003f);
+}
+#container {
+	color: #bfdfff
+}
+#container div {
+	color: #00bfff !important
+}
+#container h2, h3 {
+	color: #007fff !important
+}
