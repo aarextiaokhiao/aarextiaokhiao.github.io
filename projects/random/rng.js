@@ -17,7 +17,7 @@ let player = {
 
 function generateNum() {
 	let rng = 0
-	for (var i = 0; i <= 4; i++) rng += Math.random()
+	for (var i = 0; i < 4; i++) rng += Math.random()
 	return 4 / (4 - rng)
 }
 
@@ -27,8 +27,8 @@ function putList(x) {
 }
 
 function getLastProducts(amt) {
-	let r = 0
-	for (var i = 1; i <= amt; i++) r += player.log?.[player.log.length - i] || 1
+	let r = 1
+	for (var i = 1; i <= amt; i++) r *= player.log?.[player.log.length - i] || 1
 	return r
 }
 
