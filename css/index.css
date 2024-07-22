@@ -1,26 +1,15 @@
 * {
-	margin: 0.25em;
+	margin: 0;
 	text-align: center;
 	font-family: 'Nunito', sans-serif
 }
 
 body {
-	font-size: 100%;
-
-	--background: radial-gradient(ellipse at top, #00000f, #00003f);
-
 	--text_color_1: #bfdfff;
 	--text_color_2: #00bfff;
-	--text_color_3: #00bfff;
-	--text_color_4: #00001f;
+	--text_color_3: #00001f;
 
-	--box_color: radial-gradient(ellipse at top, #07fb, #07f3);
-	--box_shadow: 2px 2px 6px rgba(0, 127, 255, 0.5);
-
-	--button_color: radial-gradient(ellipse at top, #07f3, transparent);
-	--button_color_hovered: rgba(255, 255, 255, 0.8);
-
-	--animation_duration: 0s
+	--button_color: radial-gradient(ellipse at top, #07f3, transparent)
 }
 
 /*
@@ -36,8 +25,8 @@ body {
 	--button_color_hovered: rgba(255, 255, 255, 0.75);
 	--text_color_1: #00ff00;
 	--text_color_2: rgba(0, 255, 0, 0.25);
-	--text_color_3: rgba(0, 255, 0, 0.5);
-	--text_color_4: rgba(0, 255, 0, 0.75);
+	--text_color_2: rgba(0, 255, 0, 0.5);
+	--text_color_3: rgba(0, 255, 0, 0.75);
 	--animation_duration: 0s
 }
 
@@ -53,20 +42,11 @@ div {
 	position: fixed;
 	top: 0;
 	left: 0;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	background: var(--background)
-}
+	z-index: -1;
 
-#container {
-	position: fixed;
-	top: 0;
-	left: 0;
-	margin: 0;
 	width: 100%;
 	height: 100%;
-	overflow-y: scroll
+	background: radial-gradient(ellipse at top, #000000, #00001f)
 }
 
 button {
@@ -74,13 +54,11 @@ button {
 	border: 0px solid;
 	border-radius: 0.5em;
 	box-shadow: var(--box_shadow);
-	height: 2em;
-	width: 12em;
-	color: var(--text_color_3);
-	font-size: 1em;
+
+	color: var(--text_color_2);
 	font-weight: bold;
 	cursor: pointer;
-	transition-duration: var(--animation_duration)
+	transition-duration: 0.4s
 }
 
 button:hover {
@@ -99,56 +77,43 @@ a.link {
 }
 
 .big {
-	color: var(--text_color_3);
-	font-size: 1.5em;
+	padding-top: 1em;
+	font-size: 1.75em;
 	font-weight: bold
 }
 
-
-.header {
-	margin: 0
-}
-
 .header_box {
-	position: relative;
-	padding: 0.25em;
-	background: var(--box_color);
-	box-shadow: var(--box_shadow);
-	border-radius: 0.25em;
-	width: calc(100% - 1em)
-}
+	padding: 1em;
 
-.header_box div, .item div {
-	margin: 0
+	box-shadow: 0 6px 24px rgba(0, 127, 255, 0.5);
+	border-radius: 0.25em
 }
 
 .item {
 	position: relative;
-	margin: 0.25em;
-	margin-right: 0;
-	margin-bottom: 0;
 	padding: 0.25em;
-	width: 18em;
+	width: 25em;
 	height: 10em;
 	font-size: 0.75em;
 	background: var(--button_color);
-	box-shadow: var(--box_shadow);
 	border-radius: 0.25em;
 	display: inline-block;
 	overflow: hidden;
-	transition-duration: var(--animation_duration)
+	transition-duration: 0.4s
 }
 
 .item:hover {
-	height: 12em;
+	box-shadow: 0 0 24px cyan;
+	filter: brightness(2)
 }
 
-.item_fix {
-	position: absolute;
-	width: 18em;
-	color: black
+.item > .big {
+	color: var(--text_color_2);
+	padding: 0
 }
 
-#slogan {
-	color: var(--text_color_4)
+.item.new {
+	background: radial-gradient(ellipse at top, #f007, transparent);
+	height: 15em;
+	color: red !important
 }
