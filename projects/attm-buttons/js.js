@@ -49,6 +49,9 @@ function on_click(i) {
 	el("bg").style.background = src.bg ?? DEFAULT.bg
 	el("range").innerHTML = src.range ?? DEFAULT.range
 	el("img").setAttribute('src', img_src ?? "")
+
+	//Handle missing stuff to fix WebKit issues.
+	el("img").style.display = img_src ? "" : "none"
 	el("missing").innerHTML = img_src ? "" : "?"
 
 	el("btn_"+BTN_CHOSEN).className = ""

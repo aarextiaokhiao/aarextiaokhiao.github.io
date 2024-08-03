@@ -15,12 +15,6 @@ let player = {
 	tug_of_war: 0,
 }
 
-function generateNum() {
-	let rng = 0
-	for (var i = 0; i < 4; i++) rng += Math.random()
-	return 4 / (4 - rng)
-}
-
 function putList(x) {
 	if (player.log.length == 10) player.log = player.log.splice(1, 9)
 	player.log.push(x)
@@ -33,7 +27,7 @@ function getLastProducts(amt) {
 }
 
 function doRNG() {
-	let rng = generateNum()
+	let rng = 1 / Math.random()
 	player.did++
 	player.rng = rng
 	player.sum += rng

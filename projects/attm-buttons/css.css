@@ -2,8 +2,9 @@
 	margin: 0;
 
 	font-family: "Times New Roman";
-	text-align: center;
 	font-size: 36px;
+	text-align: center;
+	color: black
 }
 
 #bg {
@@ -35,6 +36,7 @@
 
 	background: white;
 	border: 6px solid black;
+	border-left: none;
 	border-radius: 0;
 
 	font-family: "Arial";
