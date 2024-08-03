@@ -1,0 +1,56 @@
+* {
+	margin: 0;
+
+	font-family: "Times New Roman";
+	text-align: center;
+	font-size: 36px;
+}
+
+#bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(ellipse at top, #fff, #def)
+}
+
+#btns {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	row-gap: 6px;
+
+	width: 25%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto
+}
+
+#btns > button {
+	width: 90%;
+	height: 90px;
+
+	background: white;
+	border: 6px solid black;
+	border-radius: 0;
+
+	font-family: "Arial";
+	font-weight: bold;
+	font-size: 75%;
+
+	cursor: pointer
+}
+
+#btns > button.chosen {
+	width: 100%
+}
+
+#look {
+	position: fixed;	
+	top: 50%;
+	left: 62.5%;
+    transform: translate(-50%, -50%)
+}
