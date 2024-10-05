@@ -35,15 +35,17 @@
 	height: 90px;
 
 	background: white;
-	border: 6px solid black;
+	border: 6px solid;
 	border-left: none;
 	border-radius: 0;
 
+	cursor: pointer
+}
+
+#btns > button > div {
 	font-family: "Arial";
 	font-weight: bold;
-	font-size: 75%;
-
-	cursor: pointer
+	font-size: 90%;
 }
 
 #btns > button.chosen {
