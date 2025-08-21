@@ -1,41 +1,22 @@
+body {
+	--text_color_1: #A6AE84;
+	--text_color_2: #F3FFC1;
+	--text_color_3: #00001f;
+}
+
 * {
 	margin: 0;
+	color: var(--text_color_1);
 	text-align: center;
-	font-family: 'Nunito', sans-serif
+	font-family: 'Lexend', sans-serif
 }
 
-body {
-	--text_color_1: #bfdfff;
-	--text_color_2: #00bfff;
-	--text_color_3: #00001f;
-
-	--button_color: radial-gradient(ellipse at top, #07f3, transparent)
+hr {
+	margin: 1em;
 }
 
-/*
-HAPPY HALLOWEEN!
-body {
-	margin: 0.25em;
-	font-size: 100%;
-	text-shadow: 0px 0px 3px var(--text_color_1);
-	--background: radial-gradient(farthest-corner at 0 0, #ff7f00, #ffbf00, #ff0000);
-	--box_color: rgba(0, 255, 0, 0.5);
-	--box_shadow: 0em 0em 0.25em rgba(0, 255, 0, 0.5), 0em 0em 1em rgba(0, 255, 0, 0.5);
-	--button_color: rgba(95, 127, 0, 0.5);
-	--button_color_hovered: rgba(255, 255, 255, 0.75);
-	--text_color_1: #00ff00;
-	--text_color_2: rgba(0, 255, 0, 0.25);
-	--text_color_2: rgba(0, 255, 0, 0.5);
-	--text_color_3: rgba(0, 255, 0, 0.75);
-	--animation_duration: 0s
-}
-
-/*
-END OF HALLOWEEN
-*/
-
-div {
-	color: var(--text_color_1)
+h1, h2 {
+	color: var(--text_color_2);
 }
 
 #background {
@@ -46,74 +27,62 @@ div {
 
 	width: 100%;
 	height: 100%;
-	background: radial-gradient(ellipse at top, #000000, #00001f)
+	background: radial-gradient(ellipse at top, #000000, #292B21)
 }
 
-button {
-	background: var(--button_color);
-	border: 0px solid;
-	border-radius: 0.5em;
-	box-shadow: var(--box_shadow);
-
-	color: var(--text_color_2);
-	font-weight: bold;
-	cursor: pointer;
-	transition-duration: 0.4s
+#top {
+	position: relative;
+	height: 120px
 }
 
-button:hover {
-	background: var(--button_color_hovered)
+#logo {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+#social {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+
+	& a {
+		margin-left: 10px;
+		text-decoration: none
+	}
 }
 
 a {
-	color: rgba(127, 191, 255, 0.8);
+	cursor: pointer
 }
 
-a.link {
-	background: rgba(0, 63, 255, 0.25);
-	border: 0px solid;
-	border-radius: 0.25em;
-	box-shadow: 0 0 0.5em rgba(0, 63, 255, 0.5);
+#categories {
+	text-align: left
 }
 
-.big {
-	padding-top: 1em;
-	font-size: 1.75em;
-	font-weight: bold
-}
+#categories a, .item {
+	background: linear-gradient(#535742, #292B21);
+	box-shadow: 0 0 1em #A6AE84;
+	border-radius: 1em;
 
-.header_box {
-	padding: 1em;
+	padding: 0.5em;
+	margin: 0.5em;
+	text-decoration: none;
+	transition-duration: 0.4s;
 
-	box-shadow: 0 6px 24px rgba(0, 127, 255, 0.5);
-	border-radius: 0.25em
+	&:hover {
+		filter: brightness(2)
+	}
+
+	&.new {
+		background: radial-gradient(ellipse at top, #f007, transparent);
+		color: red !important
+	}
 }
 
 .item {
-	position: relative;
-	padding: 0.25em;
 	width: 25em;
 	height: 10em;
-	font-size: 0.75em;
-	background: var(--button_color);
-	border-radius: 0.25em;
 	display: inline-block;
 	overflow: hidden;
-	transition-duration: 0.4s
-}
-
-.item:hover {
-	box-shadow: 0 0 24px cyan;
-	filter: brightness(2)
-}
-
-.item > .big {
-	color: var(--text_color_2);
-	padding: 0
-}
-
-.item.new {
-	background: radial-gradient(ellipse at top, #f007, transparent);
-	height: 15em;
-	color: red !important
 }
