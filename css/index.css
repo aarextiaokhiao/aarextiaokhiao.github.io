@@ -6,6 +6,7 @@ body {
 
 * {
 	margin: 0;
+	font-size: 15px;
 	color: var(--text_color_1);
 	text-align: center;
 	font-family: 'Lexend', sans-serif
@@ -15,7 +16,13 @@ hr {
 	margin: 1em;
 }
 
-h1, h2 {
+h1 {
+	font-size: 25px;
+	color: var(--text_color_2);
+}
+
+h2 {
+	font-size: 20px;
 	color: var(--text_color_2);
 }
 
@@ -32,7 +39,7 @@ h1, h2 {
 
 #top {
 	position: relative;
-	height: 120px
+	height: 65px
 }
 
 #logo {
@@ -47,7 +54,7 @@ h1, h2 {
 	right: 10px;
 
 	& a {
-		margin-left: 10px;
+		margin-left: 1em;
 		text-decoration: none
 	}
 }
